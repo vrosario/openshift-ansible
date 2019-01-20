@@ -56,6 +56,9 @@ master
 # must be bare (e.g. have no data, not be marked as LVM PVs), and will be
 # formatted.
 [glusterfs]
+os1.lab.local glusterfs_ip=''
+os2.lab.local glusterfs_ip=''
+os3.lab.local glusterfs_ip=''
 node0.local  glusterfs_ip='172.0.0.10' glusterfs_devices='[ "/dev/vdb" ]'
-node1.local  glusterfs_ip='172.0.0.11' glusterfs_devices='[ "/dev/vdb", "/dev/vdc" ]'
+node1.local  glusterfs_ip='172.0.0.11' glusterfs_devices='[ "/dev/vdb" ]'
 node2.local  glusterfs_ip='172.0.0.11' glusterfs_devices='[ "/dev/vdd" ]'
