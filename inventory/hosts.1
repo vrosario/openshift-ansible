@@ -21,7 +21,7 @@ masters
 nodes
 etcd
 # Specify there will be GlusterFS nodes
-glusterfs
+#glusterfs
 
 [OSEv3:vars]
 ansible_ssh_user=student
@@ -37,13 +37,13 @@ openshift_disable_check=memory_availability,disk_availability,package_version
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true','challenge':'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 openshift_master_htpasswd_users={'admin': '$apr1$RbOvaj8r$LEqJqG6V/O/i7Pfyyyyyy.', 'user': '$apr1$MfsFK97I$enQjqHCh2LL8w4EBwNrrrr'}
 ###
-openshift_storage_glusterfs_namespace=app-storage
-openshift_storage_glusterfs_storageclass=true
-openshift_storage_glusterfs_storageclass_default=false
-openshift_storage_glusterfs_block_deploy=true
-openshift_storage_glusterfs_block_host_vol_size=15
-openshift_storage_glusterfs_block_storageclass=true
-openshift_storage_glusterfs_block_storageclass_default=false
+#openshift_storage_glusterfs_namespace=app-storage
+#openshift_storage_glusterfs_storageclass=true
+#openshift_storage_glusterfs_storageclass_default=false
+#openshift_storage_glusterfs_block_deploy=true
+#openshift_storage_glusterfs_block_host_vol_size=15
+#openshift_storage_glusterfs_block_storageclass=true
+#openshift_storage_glusterfs_block_storageclass_default=false
 
 [masters]
 os1.lab.local
@@ -63,10 +63,10 @@ os2.lab.local
 # devices the node will have access to that is intended solely for use as
 # GlusterFS storage. These block devices must be bare (e.g. have no data, not
 # be marked as LVM PVs), and will be formatted.
-[glusterfs]
-os1.lab.local glusterfs_devices='[ "/dev/sdb" ]'
-os2.lab.local glusterfs_devices='[ "/dev/sdb" ]'
-os3.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+#[glusterfs]
+#os1.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+#os2.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+#os3.lab.local glusterfs_devices='[ "/dev/sdb" ]'
 # os1.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
 # os2.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
 # os3.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
