@@ -36,6 +36,14 @@ openshift_disable_check=memory_availability,disk_availability,package_version
 ###
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true','challenge':'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 openshift_master_htpasswd_users={'admin': '$apr1$RbOvaj8r$LEqJqG6V/O/i7Pfyyyyyy.', 'user': '$apr1$MfsFK97I$enQjqHCh2LL8w4EBwNrrrr'}
+###
+openshift_storage_glusterfs_namespace=app-storage
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=15
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
 
 [masters]
 os1.lab.local
