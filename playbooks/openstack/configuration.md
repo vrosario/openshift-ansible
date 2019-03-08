@@ -23,7 +23,6 @@ Environment variables may also be used.
 * [Kuryr Networking Configuration](#kuryr-networking-configuration)
 * [Provider Network Configuration](#provider-network-configuration)
 * [Multi-Master Configuration](#multi-master-configuration)
-* [Provider Network Configuration](#provider-network-configuration)
 * [Cinder-Backed Persistent Volumes Configuration](#cinder-backed-persistent-volumes-configuration)
 * [Cinder-Backed Registry Configuration](#cinder-backed-registry-configuration)
 * [Swift or Ceph Rados GW Backed Registry Configuration](#swift-or-ceph-rados-gw-backed-registry-configuration)
@@ -762,6 +761,23 @@ openshift_kuryr_sg_driver: namespace
 ```
 
 
+### Network Policies
+
+By default, kuryr is configured with the default isolation policy where pods
+isolation is statically defined. Kuryr also permits to enable more advanced
+and dynamic isolation policies by implementing network policies through
+security groups. To enable it you need to uncomment the following on the
+all.yml inventory file:
+
+```yaml
+openshift_kuryr_subnet_driver: namespace
+openshift_kuryr_sg_driver: policy
+```
+
+Note enabling the namespace subnet driver is required to enabled network
+policy isolation
+
+
 ### Kuryr Controller and CNI healthchecks probes
 
 By default kuryr controller and cni pods are deployed with readiness and
@@ -906,6 +922,10 @@ In `inventory/group_vars/all.yml`:
 
 * `openshift_openstack_provider_network_name` Provider network name. Setting this will cause the `openshift_openstack_external_network_name` and `openshift_openstack_private_network_name` parameters to be ignored.
 
+If you are using Octavia as the load balancer, set the following as well:
+
+* `openshift_openstack_node_subnet_name`
+* `openshift_openstack_load_balancer_floating_ip: false`
 
 ## Cinder-Backed Persistent Volumes Configuration
 
@@ -960,10 +980,13 @@ and then set the following in `inventory/group_vars/OSEv3.yml`:
 * `openshift_hosted_registry_storage_volume_size`: 10Gi
 
 For a volume *you created*, you must also specify its **UUID** (it must be
-the UUID, not the volume's name):
+the UUID, not the volume's name). If using the default storage class, you must specify
+that as well (for OpenStack it's `standard`):
 
 ```
 openshift_hosted_registry_storage_openstack_volumeID: e0ba2d73-d2f9-4514-a3b2-a0ced507fa05
+openshift_hosted_registry_storage_annotations:
+- 'volume.beta.kubernetes.io/storage-class: standard'
 ```
 
 If you want the volume *created automatically*, set the desired name instead:
@@ -1115,7 +1138,7 @@ Modify the all.yml file and add the following variables:
 ```
 openshift_openstack_master_group_name: node-config-master-crio
 openshift_openstack_infra_group_name: node-config-infra-crio
-openshift_openstack_compute_group_name: node-config-compute-crio  
+openshift_openstack_compute_group_name: node-config-compute-crio
 ```
 
 NOTE: Currently, OpenShift builds require docker.
@@ -1150,6 +1173,8 @@ openshift_use_crio: true
 
 ```
 openshift_openstack_master_group_name: node-config-master-crio
+openshift_openstack_infra_group_name: node-config-infra-crio
+openshift_openstack_compute_group_name: node-config-compute-crio
 ```
 
 ### Some nodes using cri-o, some others docker
@@ -1225,7 +1250,7 @@ After a successful installation, the containerRuntimeVersion field says the CR
 it uses:
 
 ```
-$ oc get nodes -o=custom-columns=NAME:.metadata.name,CR:.status.nodeInfo.containerRuntimeVersion --selector='node-role.kubernetes.io/compute=true'                                                                   
+$ oc get nodes -o=custom-columns=NAME:.metadata.name,CR:.status.nodeInfo.containerRuntimeVersion --selector='node-role.kubernetes.io/compute=true'
 NAME                                  CR
 app-node-0.shiftstack.automated.lan   cri-o://1.11.5
 app-node-1.shiftstack.automated.lan   docker://1.13.1
