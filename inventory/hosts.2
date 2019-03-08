@@ -1,0 +1,85 @@
+# This is an example of an OpenShift-Ansible host inventory for a cluster
+# with natively hosted, containerized GlusterFS storage.
+#
+# This inventory may be used with the deploy_cluster.yml playbook to deploy a new
+# cluster with GlusterFS storage, which will use that storage to create a
+# volume that will provide backend storage for a hosted Docker registry.
+#
+# This inventory may also be used with openshift-glusterfs/config.yml to
+# deploy GlusterFS storage on an existing cluster. With this playbook, the
+# registry backend volume will be created but the administrator must then
+# either deploy a hosted registry or change an existing hosted registry to use
+# that volume.
+#
+# There are additional configuration parameters that can be specified to
+# control the deployment and state of a GlusterFS cluster. Please see the
+# documentation in playbooks/openshift-glusterfs/README.md and
+# roles/openshift_storage_glusterfs/README.md for additional details.
+
+[OSEv3:children]
+masters
+nodes
+etcd
+# Specify there will be GlusterFS nodes
+glusterfs
+
+[OSEv3:vars]
+ansible_ssh_user=student
+ansible_become=true
+os_firewall_use_firewalld=True
+openshift_deployment_type=origin
+openshift_release="3.11.0"
+openshift_image_tag="v3.11.0"
+openshift_pkg_version="-3.11.0"
+openshift_disable_check=memory_availability,disk_availability,package_version
+#openshift_additional_repos=[{'id': 'centos-okd-ci', 'name': 'centos-okd-ci', 'baseurl' :'https://rpms.svc.ci.openshift.org/openshift-origin-v3.11', 'gpgcheck' :'0', 'enabled' :'1'}]
+#openshift_additional_repos=[{'id': 'centos-okd-ci', 'name': 'centos-okd-ci', 'baseurl' :'http://buildlogs.centos.org/centos/7/paas/x86_64/openshift-origin311/', 'gpgcheck' :'0', 'enabled' :'1'}]
+###
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true','challenge':'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'admin': '$apr1$RbOvaj8r$LEqJqG6V/O/i7Pfyyyyyy.', 'user': '$apr1$MfsFK97I$enQjqHCh2LL8w4EBwNrrrr'}
+###
+openshift_storage_glusterfs_namespace=app-storage
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=24
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
+
+##External setup (with external Heketi)
+#openshift_storage_glusterfs_is_native=false
+#openshift_storage_glusterfs_heketi_is_native=false
+#openshift_storage_glusterfs_heketi_url="os1.lab.local"
+
+#openshift_storage_glusterfs_heketi_executor=ssh
+#openshift_storage_glusterfs_heketi_ssh_port=22
+#openshift_storage_glusterfs_heketi_ssh_user=student
+#openshift_storage_glusterfs_heketi_ssh_sudo=true
+#openshift_storage_glusterfs_heketi_ssh_keyfile="/home/student/.ssh/id_rsa"
+
+[masters]
+os1.lab.local
+
+[nodes]
+# masters should be schedulable to run web console pods
+os1.lab.local openshift_schedulable=True openshift_node_group_name='node-config-all-in-one'
+os2.lab.local openshift_schedulable=True openshift_node_group_name='node-config-compute'
+os3.lab.local openshift_schedulable=True openshift_node_group_name='node-config-compute'
+
+[etcd]
+os2.lab.local
+
+# Specify the glusterfs group, which contains the nodes that will host
+# GlusterFS storage pods. At a minimum, each node must have a
+# "glusterfs_devices" variable defined. This variable is a list of block
+# devices the node will have access to that is intended solely for use as
+# GlusterFS storage. These block devices must be bare (e.g. have no data, not
+# be marked as LVM PVs), and will be formatted.
+[glusterfs]
+os1.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+os2.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+os3.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+# os1.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
+# os2.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
+# os3.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
+
