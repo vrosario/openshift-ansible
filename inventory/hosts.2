@@ -31,6 +31,7 @@ openshift_deployment_type=origin
 openshift_release="3.11.0"
 openshift_image_tag="v3.11.0"
 openshift_pkg_version="-3.11.0"
+openshift_set_node_ip=true
 openshift_disable_check=memory_availability,disk_availability#,package_version
 #openshift_additional_repos=[{'id': 'centos-okd-ci', 'name': 'centos-okd-ci', 'baseurl' :'https://rpms.svc.ci.openshift.org/openshift-origin-v3.11', 'gpgcheck' :'0', 'enabled' :'1'}]
 #openshift_additional_repos=[{'id': 'centos-okd-ci', 'name': 'centos-okd-ci', 'baseurl' :'http://buildlogs.centos.org/centos/7/paas/x86_64/openshift-origin311/', 'gpgcheck' :'0', 'enabled' :'1'}]
@@ -94,9 +95,9 @@ os1.lab.local
 # GlusterFS storage. These block devices must be bare (e.g. have no data, not
 # be marked as LVM PVs), and will be formatted.
 [glusterfs]
-os1.lab.local glusterfs_devices='[ "/dev/sdb" ]'
-os2.lab.local glusterfs_devices='[ "/dev/sdb" ]'
-os3.lab.local glusterfs_devices='[ "/dev/sdb" ]'
+os1.lab.local glusterfs_devices='[ "/dev/sdb" ]' openshift_ip=192.168.1.21
+os2.lab.local glusterfs_devices='[ "/dev/sdb" ]' openshift_ip=192.168.1.22
+os3.lab.local glusterfs_devices='[ "/dev/sdb" ]' openshift_ip=192.168.1.23
 # os1.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
 # os2.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
 # os3.lab.local glusterfs_devices='[ "/data/openshift/brick" ]'
