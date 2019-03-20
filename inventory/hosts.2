@@ -39,6 +39,7 @@ openshift_disable_check=memory_availability,disk_availability#,package_version
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true','challenge':'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 openshift_master_htpasswd_users={'admin': '$apr1$2R0a1ICK$DIu50ce/H63Z7IBFt8lLZ.', 'user': '$apr1$mH.4dR2o$2IKpLpwSTIkZSAV8B.YRt.'}
 ###
+openshift_hosted_registry_storage_kind=glusterfs
 
 ##Containerized setup
 #openshift_storage_glusterfs_namespace=app-storage
