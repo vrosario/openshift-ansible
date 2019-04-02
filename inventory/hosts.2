@@ -41,6 +41,9 @@ openshift_master_htpasswd_users={'admin': '$apr1$2R0a1ICK$DIu50ce/H63Z7IBFt8lLZ.
 ###
 openshift_hosted_registry_storage_kind=glusterfs
 
+# LDAP auth
+#openshift_master_identity_providers=[{'name': 'my_ldap_provider', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider', 'attributes': {'id': ['dn'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['uid']}, 'bindDN': '', 'bindPassword': '', 'insecure': 'false', 'url': 'ldap://ldap.example.com:389/ou=users,dc=example,dc=com?uid'}]
+
 ##Containerized setup
 #openshift_storage_glusterfs_namespace=app-storage
 #openshift_storage_glusterfs_storageclass=true
