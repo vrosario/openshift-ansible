@@ -9,7 +9,7 @@
 %global __requires_exclude ^/usr/bin/ansible-playbook$
 
 Name:           openshift-ansible
-Version:        3.11.99
+Version:        3.11.107
 Release:        1%{?dist}
 Summary:        Openshift and Atomic Enterprise Ansible
 License:        ASL 2.0
@@ -190,6 +190,78 @@ BuildArch:     noarch
 %{_datadir}/ansible/%{name}/test
 
 %changelog
+* Tue Apr 16 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.107-1
+- openshift_ovirt: Fix hostname in the inventory groups (rgolan@redhat.com)
+- Fix serviceaccounts' secrets for Metrics (jmartisk@redhat.com)
+
+* Sun Apr 14 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.106-1
+- Fixes NotReady nodes after ca and certificate update (jcallen@redhat.com)
+- Ensure master vars are passed to openshift_facts on upgrade
+  (vrutkovs@redhat.com)
+- Console cert redeploy: rerun install (vrutkovs@redhat.com)
+
+* Thu Apr 11 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.105-1
+- Update roles/openshift_logging_elasticsearch/tasks/main.yaml
+  (roignac@gmail.com)
+- Update main.yaml (crmarquesjc@gmail.com)
+
+* Wed Apr 10 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.104-1
+- Change the cni-cleanup file path to /etc (gabriel.mainberger@vshn.net)
+- Backport of #10173 (egarcia@redhat.com)
+- openshift_ovirt: fix inventory creation of multi nodes (rgolan@redhat.com)
+- Update README.md (onurserdarosman@gmail.com)
+- Add playbooks to regenerate secrets for openshift-monitoring
+  (vrutkovs@redhat.com)
+- OLM: use olm_operator_version as a tag for Origin images
+  (vrutkovs@redhat.com)
+- tmpfile.d file clears the cni config on boot (pcameron@redhat.com)
+- BZ1695856 - redeploy certificates fails if use_crio_only (jcallen@redhat.com)
+- Option to add and annotate namespaces for openshift-service-catalog (apomitta
+  @apoorva-vm1.local.lan)
+- BZ1694106 - Update crictl.yaml runtime-endpoint config to resolve warning
+  (jcallen@redhat.com)
+- Remove block storageclass (crmarquesjc@gmail.com)
+- openshift_ovirt: Support setting mac_address in the manifest
+  (rgolan@redhat.com)
+- [KIECLOUD-110] - Update RHDM and RHPAM 7.30 templates on OCP and OSO service
+  catalog (fspolti@redhat.com)
+- [KIECLOUD-171] - Update Application templates and imagestreams on OCP for
+  RHDS and RHIPS (fspolti@redhat.com)
+- Revert "bug 1666674. Add Kibana sar and delegate url for auth-delegator"
+  (jcantril@redhat.com)
+- test/deprovision: retry attempts to destroy instances and SG
+  (vrutkovs@redhat.com)
+- Providing default oreg_url for validation (philippe@dellaert.org)
+- Update kube-rbac-proxy to v0.4.1 (vrutkovs@redhat.com)
+- ASB: use `${version}` in default image (vrutkovs@redhat.com)
+- Satellite image URL can be worked in example template image url replacement.
+  (bysnupy@hotmail.com)
+
+* Sun Mar 31 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.103-1
+- Linting fixes in playbooks and roles (vikash.kumar@oneconvergence.com)
+- Updating OWNERS (jcallen@redhat.com)
+- Remove papr test files (rteague@redhat.com)
+- Re-apply tuned profile during upgrade (rteague@redhat.com)
+- lib_utils to parse *_storage_host variables with get_templated
+  (jstuever@redhat.com)
+- Cisco ACI CNI Plugin support (sumitnaiksatam@gmail.com)
+
+* Thu Mar 28 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.102-1
+- bz1690900: no longer install etcd on masters (jstuever@redhat.com)
+- Wait for ServiceMonitor CRD to be created should have configurable retries
+  and delays (vrutkovs@redhat.com)
+- [release-3.11] Do not include enterprise registry unless available in
+  oreg_url (jcallen@redhat.com)
+
+* Tue Mar 26 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.101-1
+- Update examples-sync.sh to use XPAAS_VERSION ose-v1.4.18 (ken@zaptillion.net)
+- Update EAP 7.1 and 6.4 imagestreams and templates (ken@zaptillion.net)
+- Teardown: remove security using cluster ID tag (vrutkovs@redhat.com)
+
+* Sun Mar 24 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.100-1
+- Modify lib_utils_oo_oreg_image filter to work against Satellite url pattern
+  (bysnupy@hotmail.com)
+
 * Thu Mar 21 2019 AOS Automation Release Team <aos-team-art@redhat.com> 3.11.99-1
 - remove dash causing syntax error in kibana install role
   (marriott_robert@bah.com)
